@@ -14,7 +14,7 @@ function MovieCard({ movie }) {
       </div>
       <div className='info'>
         <p className='title'>{movie.Title}</p>
-        <p className='vote'>{movie.imdbRating}</p>
+        <p className='vote'>{movie.Year}</p>
       </div>
       <div className='overview'>
         <h2 className='overview_title'>OverView:</h2>

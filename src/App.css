@@ -5,7 +5,8 @@
 }
 .App {
   padding: 1.5rem;
-  background-color: rgb(50, 50, 103);
+  background-color: #8bc34a;
+  /* background-color: rgb(50, 50, 103); */
 }
 .movies_continer {
   display: flex;
@@ -29,10 +30,17 @@
   border: 0;
   outline: 0;
   margin-right: 0.5rem;
+  width: 25vw;
   padding: 0.3rem;
   border-radius: 1rem;
 }
 .search_box button {
+  border: 0;
+  outline: 0;
+  padding: 0.3rem;
+  border-radius: 1rem;
+}
+.button {
   border: 0;
   outline: 0;
   padding: 0.3rem;

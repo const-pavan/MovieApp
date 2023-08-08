@@ -2,29 +2,23 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import MovieCard from './MovieCard'
 function App() {
-  const API_URL = 'http://www.omdbapi.com/?apikey=46ab70c&s=movies&page=1'
-  useEffect(() => {
-    fetch(API_URL)
-      .then((response) => response.json())
-      .then((data) => setMovies(data.Search))
-  }, [])
   const [movies, setMovies] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
 
-  // useEffect(() => {
-  //   const url = 'http://www.omdbapi.com/?apikey=46ab70c&s=movies&page=1'
-  //   fetch(url)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       const promises = data.Search.map((movie) => {
-  //         const url = `http://www.omdbapi.com/?apikey=46ab70c&i=${movie.imdbID}`
-  //         return fetch(url).then((response) => response.json())
-  //       })
-  //       return Promise.all(promises)
-  //     })
-  //     .then((movies) => setMovies(movies))
-  // }, [])
-  console.log(movies)
+  useEffect(() => {
+    const url = 'http://www.omdbapi.com/?apikey=46ab70c&s=movies&page=1'
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        const promises = data.Search.map((movie) => {
+          const url = `http://www.omdbapi.com/?apikey=46ab70c&i=${movie.imdbID}`
+          return fetch(url).then((response) => response.json())
+        })
+        return Promise.all(promises)
+      })
+      .then((movies) => setMovies(movies))
+  }, [])
+
   const apiKey = '46ab70c'
   const searchUrl = `http://www.omdbapi.com/?apikey=${apiKey}&s=${searchQuery}`
 
@@ -32,7 +26,17 @@ function App() {
     e.preventDefault()
     fetch(searchUrl)
       .then((response) => response.json())
-      .then((data) => setMovies(data.Search))
+      .then((data) => {
+        console.log(data)
+        if (data.Response === 'True') {
+          const promises = data.Search.map((movie) => {
+            const url = `http://www.omdbapi.com/?apikey=46ab70c&i=${movie.imdbID}`
+            return fetch(url).then((response) => response.json())
+          })
+          return Promise.all(promises)
+        }
+      })
+      .then((movies) => setMovies(movies))
   }
   const handleChange = (e) => {
     e.preventDefault()
@@ -43,7 +47,7 @@ function App() {
     <div className='App'>
       <div className='search_nav'>
         <div className='title'>
-          <h1>Movie</h1>
+          <h2>Hello, Welcome to Movie app</h2>
         </div>
 
         <div className='search_box'>
@@ -52,6 +56,9 @@ function App() {
             <button>Search </button>
           </form>
         </div>
+        {/* <div>
+          <button className='button'>Log In</button>
+        </div> */}
       </div>
       <div className='movies_continer'>
         {movies ? (
